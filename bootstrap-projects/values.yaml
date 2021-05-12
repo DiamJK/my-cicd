@@ -4,4 +4,4 @@
 
 cicdNs: mycicd
 developmentNs: mydev
-stagingNs: smystage
+stagingNs: mystage
