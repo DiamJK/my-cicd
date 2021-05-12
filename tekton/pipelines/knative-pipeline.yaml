@@ -75,7 +75,7 @@ spec:
     taskRef:
       name: buildah
 # use task taken from hub (so no pipeline resource is needed...)
-#      kind: ClusterTask
+      kind: ClusterTask
     params:
       - name: TLSVERIFY
         value: "false"
