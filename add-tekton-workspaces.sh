@@ -12,7 +12,6 @@ echo "Creating knative-kustomize-base ConfigMap with base kustomize files \
 oc create cm knative-kustomize-base \
   --from-file=tekton/workspaces/knative/base/kservice.yaml \
   --from-file=tekton/workspaces/knative/base/kustomization.yaml \
-  --from-file=tekton/workspaces/knative/base/global-ops-configmap.yaml \
   -n $NS
 
 echo "Creating knative-kustomize-environment ConfigMap with environment \
@@ -22,7 +21,6 @@ oc create cm knative-kustomize-environment \
   --from-file=tekton/workspaces/knative/environment/kustomization.yaml \
   --from-file=tekton/workspaces/knative/environment/revision-patch.yaml \
   --from-file=tekton/workspaces/knative/environment/routing-patch.yaml \
-  --from-file=tekton/workspaces/knative/environment/env-ops-configmap.yaml \
   -n $NS 
 
 echo "Creating maven ConfigMap with settings.xml"
