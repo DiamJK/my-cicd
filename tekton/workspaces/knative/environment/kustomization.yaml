@@ -1,7 +1,5 @@
 resources:
 - ../base
-- env-ops-configmap.yaml
-- ${REVISION}/configmap.yaml
 
 patches:
 - path: traffic-routing.yaml
