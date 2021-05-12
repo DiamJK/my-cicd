@@ -4,10 +4,10 @@ metadata:
   generateName: knative-pipeline-run-
 spec:
   pipelineRef:
-    name: knative-pipeline
+    name: my-knative-pipeline
   params:
     - name: application
-      value: quarkus-hello-world
+      value: myquarkus
     - name: source-repo-url
       value: ${SOURCE_REPO}
     - name: source-revision
