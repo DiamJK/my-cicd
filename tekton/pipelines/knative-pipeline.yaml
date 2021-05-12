@@ -1,7 +1,7 @@
 apiVersion: tekton.dev/v1beta1
 kind: Pipeline
 metadata:
-  name: knative-pipeline
+  name: my-knative-pipeline
 spec:
   description: |
     This pipeline will clone a given repository revision, build a Quarkus application,
