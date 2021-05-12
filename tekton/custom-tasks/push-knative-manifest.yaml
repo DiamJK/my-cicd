@@ -81,17 +81,6 @@ spec:
           echo "$BASE_KSVC_FILE already exists, no need to create it"   
         fi
 
-        BASE_GLCM_FILE="$BASE_DEPLOYMENT_DIR/global-ops-configmap.yaml"
-        # Check if base global-ops-configmap.yaml exists
-        if [ ! -f "$BASE_GLCM_FILE" ]
-        then
-          echo "$BASE_GLCM_FILE does not exists, it will be initialized"
-          cat $TEMPLATES_DIR/global-ops-configmap.yaml | APPLICATION_NAME=$(params.application) \
-            envsubst > $BASE_GLCM_FILE    
-        else 
-          echo "$BASE_GLCM_FILE already exists, no need to create it"   
-        fi
-
     - name: create-kustomize-manifests-per-environment
       image: quay.io/dsanchor/ubi8-git:0.0.2
       script: |
@@ -119,9 +108,8 @@ spec:
 
         }
 
-        init_env_folder development
-        init_env_folder staging
-        init_env_folder production
+        init_env_folder mydev
+        init_env_folder mystage
 
         echo "Removing old revisions manifests... but keeping any existing traffic-routing.yaml"
 
@@ -140,33 +128,12 @@ spec:
           fi    
         }
 
-        init_service_traffic_routing development
-        init_service_traffic_routing staging
-        init_service_traffic_routing production
-
-        init_service_env_configmap() {
-          env=$1
-          ENV_DEPLOYMENT_DIR="$DEPLOYMENT_DIR/$env"
-          ENV_CM_FILE="$ENV_DEPLOYMENT_DIR/env-ops-configmap.yaml"
-          # Check if env-ops-configmap.yaml exists
-          if [ ! -f "$ENV_CM_FILE" ]
-          then
-            echo "$ENV_CM_FILE does not exists, it will be initialized"
-            cat $TEMPLATES_DIR/env-ops-configmap.yaml | APPLICATION_NAME=$(params.application) \
-              envsubst > $ENV_CM_FILE    
-          else 
-            echo "Keeping existing $ENV_CM_FILE"   
-          fi  
-        }
-
-        init_service_env_configmap development
-        init_service_env_configmap staging
-        init_service_env_configmap production
+        init_service_traffic_routing mydev
+        init_service_traffic_routing mystage
 
 
-        DEV_DEPLOYMENT_DIR="$DEPLOYMENT_DIR/development"
-        STG_DEPLOYMENT_DIR="$DEPLOYMENT_DIR/staging"
-        PROD_DEPLOYMENT_DIR="$DEPLOYMENT_DIR/production"
+        DEV_DEPLOYMENT_DIR="$DEPLOYMENT_DIR/mydev"
+        STG_DEPLOYMENT_DIR="$DEPLOYMENT_DIR/mystage"
 
 
         # only in dev  
@@ -195,7 +162,6 @@ spec:
         # notice that we dont create/overwrite the kustomization.yaml in staging or production
         # we want somebody to manually review and approve it
         create_env_kustomization staging $REVISION $STG_DEPLOYMENT_DIR/kustomization-$REVISION.yaml
-        create_env_kustomization staging $REVISION $PROD_DEPLOYMENT_DIR/kustomization-$REVISION.yaml
 
         # delete old revisions folders ONLY in development
         rm -rf $DEV_DEPLOYMENT_DIR/r*/
@@ -206,14 +172,6 @@ spec:
           # create new revision folder
           ENV_REVISION_DIR="$DEPLOYMENT_DIR/$env/$REVISION"
           mkdir -p $ENV_REVISION_DIR
-
-          SOURCE_MANIFESTS_DIR="$SOURCE_DIR/k8s-config/$env"
-          if [ -d "$SOURCE_MANIFESTS_DIR" ]
-          then
-            # copy resources from application source code. Ex: configmap.yaml
-            echo "Copying resources from application source code for $env environment"
-            cp $SOURCE_MANIFESTS_DIR/* $ENV_REVISION_DIR
-          fi
 
           # create routing for that particular revision
           cat $TEMPLATES_DIR/routing-patch.yaml | APPLICATION_NAME=$(params.application) \
@@ -226,9 +184,8 @@ spec:
             envsubst > $ENV_REVISION_DIR/revision-patch.yaml
         }
 
-        create_revision_files development
-        create_revision_files staging
-        create_revision_files production
+        create_revision_files mydev
+        create_revision_files mystage
         
 
     - name: push-manifest-to-git
