@@ -10,7 +10,7 @@ spec:
   destinations:
     - namespace: 'mydev'
       server: '*'
-    - namespace: 'mystage
+    - namespace: 'mystage'
       server: '*'
   sourceRepos:
     - '*'
