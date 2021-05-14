@@ -1,14 +1,12 @@
 apiVersion: argoproj.io/v1alpha1
 kind: ArgoCD
 metadata:
+  finalizers:
+  - argoproj.io/finalizer
   name: argocd
 spec:
-  dex:
-    image: quay.io/redhat-cop/dex 
-    version: v2.22.0-openshift
-    openShiftOAuth: true
-  rbac:
-    defaultPolicy: 'role:admin'
+  dex: {}
+  rbac: {}
   server:
     route:
       enabled: true
