@@ -5,11 +5,11 @@ metadata:
   namespace: ${CICD_NS}
 spec:
   destination:
-    namespace: development
+    namespace: mydev
     server: 'https://kubernetes.default.svc'
   project: ${TEAM}
   source:
-    path: development
+    path: mydev
     repoURL: ${DEPLOYMENT_REPOSITORY_URL}
     targetRevision: ${DEPLOYMENT_REPOSITORY_REVISION}
   syncPolicy:
@@ -24,11 +24,11 @@ metadata:
   namespace: ${CICD_NS}
 spec:
   destination:
-    namespace: staging
+    namespace: mystage
     server: 'https://kubernetes.default.svc'
   project: ${TEAM}
   source:
-    path: staging
+    path: mystage
     repoURL: ${DEPLOYMENT_REPOSITORY_URL}
     targetRevision: ${DEPLOYMENT_REPOSITORY_REVISION}
   syncPolicy:
