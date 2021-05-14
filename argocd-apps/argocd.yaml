@@ -6,7 +6,8 @@ metadata:
   name: argocd
 spec:
   dex: {}
-  rbac: {}
+  rbac:
+    defaultPolicy: 'role:admin'
   server:
     route:
       enabled: true
