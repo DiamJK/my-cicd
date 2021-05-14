@@ -8,9 +8,9 @@ spec:
     - group: '*'
       kind: '*'
   destinations:
-    - namespace: 'development'
+    - namespace: 'mydev'
       server: '*'
-    - namespace: 'staging'
+    - namespace: 'mystage
       server: '*'
   sourceRepos:
     - '*'
