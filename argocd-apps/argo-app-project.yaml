@@ -12,7 +12,5 @@ spec:
       server: '*'
     - namespace: 'staging'
       server: '*'
-    - namespace: 'production'
-      server: '*'
   sourceRepos:
     - '*'
